@@ -123,3 +123,9 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 + (BOOL)updateTable:(Class)cls tableName:(NSString *)t_table;
 //TODO: 数据库迁移模块END================
 @end
+
+
+/**
+ * 找出分组后时间最晚的完整记录 select * from test where t in (select max(t) from test group by groupid) group by groupid
+ 
+ */

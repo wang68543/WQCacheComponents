@@ -1,1 +1,1 @@
-../../../../../WQBaseDemo/WQBasicComponents/Category/Category_Date/WQDateFormater.h
+../../../../../WQBasicComponents/WQBasicComponents/Category/Category_Date/WQDateFormater.h

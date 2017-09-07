@@ -1,6 +1,6 @@
 {
   "name": "WQBasicComponents",
-  "version": "0.1.2",
+  "version": "0.1.6",
   "summary": "基础组件(不涉及UI部分)",
   "description": "平常收集的一些常用的工具以及分类",
   "homepage": "https://github.com/wang68543/WQBasicComponents",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/wang68543/WQBasicComponents.git",
-    "tag": "0.1.2"
+    "tag": "0.1.6"
   },
   "platforms": {
     "ios": "8.0"
@@ -23,10 +23,7 @@
   "source_files": "WQBasicComponents/WQBasicComponents.h",
   "dependencies": {
     "AFNetworking": [
-
-    ],
-    "SDWebImage": [
-
+      ">= 3.1.0"
     ]
   },
   "subspecs": [
@@ -42,6 +39,10 @@
     {
       "name": "Category",
       "subspecs": [
+        {
+          "name": "Category_String",
+          "source_files": "WQBasicComponents/Category/Category_String/*.{h,m}"
+        },
         {
           "name": "Category_Vendor",
           "source_files": "WQBasicComponents/Category/Category_Vendor/*.{h,m}"
@@ -81,9 +82,6 @@
           "name": "NetWorkTool",
           "dependencies": {
             "WQBasicComponents/Tool/BasicHelp": [
-
-            ],
-            "WQBasicComponents/Category/Category_Foundation": [
 
             ]
           },

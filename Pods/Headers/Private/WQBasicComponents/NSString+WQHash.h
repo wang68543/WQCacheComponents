@@ -1,1 +1,1 @@
-../../../../../WQBaseDemo/WQBasicComponents/Category/Category_Foundation/NSString+WQHash.h
+../../../../../WQBasicComponents/WQBasicComponents/Category/Category_String/NSString+WQHash.h
