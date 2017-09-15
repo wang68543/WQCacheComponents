@@ -18,13 +18,15 @@
 //NSURLRequestReturnCacheDataDontLoad = 3,
 //
 //NSURLRequestReloadRevalidatingCacheData = 5
-typedef NS_ENUM(NSInteger , WQFetchType) {
+typedef NS_ENUM(NSInteger , WQRefreshPolicy) {
     /** 本地先查询 不够的话再去服务器取 取完了然后再从数据库中查询*/
-    kFetchFromDBFirst,
+    kRefreshFromDBFirst,
     /** 只读取本地数据库的 */
-    kFetchOnlyFromDB,
-    /** 本地直接查询数据库 然后去远程读取 最后存到本地数据库 但是不继续读取本地数据库 */
-    kFetchRefreshDBFromRemote,
+    kRefreshOnlyFromDB,
+    /** 本地直接查询数据库 然后去远程读取 最后存到本地数据库 最后读取数据 */
+    kRefreshFromRemoteDependencyDB,
+    /** 仅仅只是根据数据库的数据刷新数据库 不读取*/
+    kOnlyRefreshDBFromRemoteDependencyDB,
 };
 
 typedef NS_ENUM(NSInteger ,WQOrderType) {
@@ -90,7 +92,7 @@ typedef enum : NSUInteger {
 /** 排序 */
 @property (assign ,nonatomic) WQOrderType orderType;
 
-@property (assign ,nonatomic) WQFetchType  fetchType;
+@property (assign ,nonatomic) WQRefreshPolicy  refreshPolicy;
 
 /** 从服务器请求的数量 */
 @property (assign ,nonatomic) NSUInteger countsFromServer;

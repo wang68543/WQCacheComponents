@@ -35,7 +35,7 @@
 + (NSDictionary *)newNameToOldNameDic;
 
 
-/** 类自定义表名 */
+/** 类自定义表名 (当一个模型可能创建多个表名的时候 就使用查询模型的实例化方法来区分) */
 + (NSString *)t_tableName;
 /** 用于解决遵守协议之后 无法创建协议类 */
 + (instancetype)alloc;
