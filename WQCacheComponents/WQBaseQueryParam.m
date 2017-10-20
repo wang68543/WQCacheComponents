@@ -137,7 +137,7 @@
     [SQL appendString:self.sameLimit.SQLFormat];
     //TODO: 子类实现
     NSString *subFormatExtra = [self formatExtraConditions];
-    if(subFormatExtra.length > 0){
+    if([subFormatExtra stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length > 0){
         if(SQL.length > 0 ){
             [SQL appendString:@"AND "];
         }
