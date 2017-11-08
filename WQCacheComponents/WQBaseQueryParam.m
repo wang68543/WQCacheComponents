@@ -118,7 +118,12 @@
     NSMutableString *updateSql = [NSMutableString stringWithFormat:@"UPDATE %@ SET ",[self t_tableName]];
     NSInteger keysCount = keys.count;
     [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [updateSql appendFormat:@"%@='%@' ",obj,[model valueForKey:obj]];
+        //网址里面包含冒号 需要用引号包含起来
+        if ([obj isEqualToString:@"content"]) {
+            [updateSql appendFormat:@"%@= '%@' ",obj,[model valueForKey:obj]];
+        }else{
+            [updateSql appendFormat:@"%@= %@ ",obj,[model valueForKey:obj]];
+        }
         
         if(idx < keysCount - 1){
             [updateSql appendFormat:@", "];

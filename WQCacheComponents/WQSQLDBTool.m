@@ -254,7 +254,7 @@
              @"NSMutableDictionary": @"blob",
              @"NSArray": @"blob",
              @"NSMutableArray": @"blob",
-             @"NSNumber": @"integer",
+             @"NSNumber": @"real",
 //             //用text类型是便于存储
 //             @"NSDictionary": @"text",
 //             @"NSMutableDictionary": @"text",
