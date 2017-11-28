@@ -56,6 +56,7 @@ typedef enum : NSUInteger {
 } WQConditionValueType;
 
 @interface WQQueryCondition : NSObject
+
 /** 查询的关系 */
 @property (assign ,nonatomic) WQRelationType relationType;
 /** 查询的字段名 */
@@ -63,6 +64,9 @@ typedef enum : NSUInteger {
 @property (copy ,nonatomic) NSString *value;
 /** value的类型 */
 @property (assign ,nonatomic) WQConditionValueType valueType;
+
+/** 判断条件是否为空 */
+- (BOOL)isEmpty;
 /** 判断 当前条件模型是否可用 */
 - (BOOL)isConditionLegal;
 /** 返回SQL语句 */

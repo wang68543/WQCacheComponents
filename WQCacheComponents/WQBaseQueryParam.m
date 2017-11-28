@@ -22,18 +22,13 @@
     }
     return self;
 }
-- (BOOL)isConditionLegal{
-    if(self.columnName.length <= 0){
-        return NO;
-    }
-    if(self.value.length <= 0){
-        return NO;
-    }
-    return YES;
+- (BOOL)isEmpty{
+    return self.columnName.length <= 0 || self.value.length <= 0;
 }
 
+
 -(NSString *)SQLFormat{
-    if(self.isConditionLegal){
+    if(!self.isEmpty){
         NSString *sql  = nil;
         NSString *relation = [WQQueryCondition columnToValueRelationWithType:self.relationType];
         switch (self.valueType) {
