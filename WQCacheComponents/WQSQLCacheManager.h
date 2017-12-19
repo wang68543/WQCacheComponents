@@ -44,9 +44,12 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 ///** 去服务器请求数据 */
 //- (void)requestDatasWithQueryParam:(WQBaseQueryParam *)queryParam response:(WQCacheQueryResponse)res;
 
+/**将数据存到数据库 表名根据实例去获取 (必须实现t_tableName方法)*/
+- (void)saveModelsToDB:(NSArray<id<WQSQLMoelProtocol> > *)models;
 /** 将服务器请求的模型保存到数据库*/
 - (void)saveModelsToDB:(NSArray<id<WQSQLMoelProtocol> > *)models tableName:(NSString *)t_table;
-
+/** 从数据库查询数据 */
+- (NSArray<id<WQSQLMoelProtocol>> *)queryFromDBWithSQL:(NSString *)sql modelClass:(Class)model;
 //-(void)requestNewDatas:(WQBaseQueryParam *)modifyParam
 //                 param:(WQBaseQueryParam *)param;
 
