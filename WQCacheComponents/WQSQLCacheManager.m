@@ -7,7 +7,7 @@
 //
 
 #import "WQSQLCacheManager.h"
-#import <WQBasicComponents/WQBasicComponents.h>
+//#import <WQBasicComponents/WQBasicComponents.h>
 
 @interface WQSQLCacheManager()
 
@@ -46,8 +46,8 @@
 
 //TODO: -- -查询第一条与最后一条
 - (NSArray <id <WQSQLMoelProtocol>> *)readFirstAndLast:(WQBaseQueryParam *)param{
-    
-    WQBaseQueryParam *newParam = [param wq_copyInstance];
+    //FIXME: -- 这里需要拷贝 参数 具体解决方法需等待。。。
+    WQBaseQueryParam *newParam = [param copy];
     newParam.limit = 1;
     NSMutableString *SQL = [NSMutableString string];
     newParam.orderType = kOrderAscending;

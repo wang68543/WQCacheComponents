@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Tool/BasicFoundation/WQDynamicObject.h
+../../../../../WQBaseDemo/WQBasicComponents/Tool/BasicFoundation/WQDynamicObject.h

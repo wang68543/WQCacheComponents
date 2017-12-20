@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Tool/BasicFoundation/NSObject+PropertyRuntime.h
+../../../../../WQBaseDemo/WQBasicComponents/Tool/BasicFoundation/NSObject+PropertyRuntime.h

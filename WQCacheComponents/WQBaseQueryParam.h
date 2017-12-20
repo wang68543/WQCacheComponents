@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <FMDB.h>
+#import "FMDB.h"
 //NSURLRequestUseProtocolCachePolicy = 0,
 //
 //NSURLRequestReloadIgnoringLocalCacheData = 1,
@@ -67,8 +67,6 @@ typedef enum : NSUInteger {
 
 /** 判断条件是否为空 */
 - (BOOL)isEmpty;
-/** 判断 当前条件模型是否可用 */
-- (BOOL)isConditionLegal;
 /** 返回SQL语句 */
 - (NSString *)SQLFormat;
 /** 初始化 */

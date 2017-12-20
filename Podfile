@@ -1,5 +1,5 @@
 
 target 'WQCacheDemo' do
-    pod 'WQBasicComponents',:path=> '../WQBasicComponents'
+    pod 'WQBasicComponents',:path=> '../WQBaseDemo'
  pod 'FMDB'
 end

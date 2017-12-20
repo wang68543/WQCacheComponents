@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Category/Category_String/NSString+WQSafe.h
+../../../../../WQBaseDemo/WQBasicComponents/Category/Category_String/NSString+WQSafe.h

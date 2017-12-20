@@ -7,7 +7,7 @@
 //  数据库存储模型需要遵守的协议
 
 #import <Foundation/Foundation.h>
-#import <FMDB.h>
+#import "FMDB.h"
 @protocol WQSQLMoelProtocol <NSObject>
 @required
 

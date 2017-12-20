@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Tool/BasicFoundation/NSError+WQUtilities.h
+../../../../../WQBaseDemo/WQBasicComponents/Tool/BasicFoundation/NSError+WQUtilities.h

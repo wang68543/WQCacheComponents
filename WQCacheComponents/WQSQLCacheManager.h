@@ -12,7 +12,7 @@
 #import "WQBaseQueryParam.h"
 #import "WQSQLDBTool.h"
 #import "WQSQLMoelProtocol.h"
-#import <WQHttpTool.h>
+//#import <WQHttpTool.h>
 
 typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 @interface WQSQLCacheManager : NSObject

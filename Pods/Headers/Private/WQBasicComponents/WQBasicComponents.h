@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/WQBasicComponents.h
+../../../../../WQBaseDemo/WQBasicComponents/WQBasicComponents.h

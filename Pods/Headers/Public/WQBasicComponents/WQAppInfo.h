@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Tool/BasicHelp/WQAppInfo.h
+../../../../../WQBaseDemo/WQBasicComponents/Tool/BasicHelp/WQAppInfo.h

@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Tool/NetWorkTool/WQHttpTool.h
+../../../../../WQBaseDemo/WQBasicComponents/Tool/NetWorkTool/WQHttpTool.h

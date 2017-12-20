@@ -1,6 +1,6 @@
 {
   "name": "WQBasicComponents",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "summary": "基础组件(不涉及UI部分)",
   "description": "平常收集的一些常用的工具以及分类",
   "homepage": "https://github.com/wang68543/WQBasicComponents",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/wang68543/WQBasicComponents.git",
-    "tag": "0.1.6"
+    "tag": "0.1.7"
   },
   "platforms": {
     "ios": "8.0"

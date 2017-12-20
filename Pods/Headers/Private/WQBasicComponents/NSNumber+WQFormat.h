@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Category/Category_Foundation/NSNumber+WQFormat.h
+../../../../../WQBaseDemo/WQBasicComponents/Category/Category_Foundation/NSNumber+WQFormat.h

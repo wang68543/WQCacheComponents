@@ -1,1 +1,1 @@
-../../../../../WQBasicComponents/WQBasicComponents/Category/Category_Date/NSString+WQBridgeFormat.h
+../../../../../WQBaseDemo/WQBasicComponents/Category/Category_Date/NSString+WQBridgeFormat.h
