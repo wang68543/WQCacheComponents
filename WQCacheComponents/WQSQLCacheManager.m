@@ -7,10 +7,12 @@
 //
 
 #import "WQSQLCacheManager.h"
-#import <WQBasicComponents/WQBasicComponents.h>
+#import <WQBasicComponents/NSObject+PropertyRuntime.h>
+#import <FMDB/FMDB.h>
 
 @interface WQSQLCacheManager()
-
+@property (strong ,nonatomic,readonly) FMDatabase *fmdb;
+@property (strong ,atomic,readonly) FMDatabaseQueue *queue;
 @end
 @implementation WQSQLCacheManager
 
@@ -170,7 +172,7 @@
     return execResult;
 }
 //TODO: 直接执行SQL语句
-- (BOOL)executeStatements:(NSString *)sql withResultBlock:(FMDBExecuteStatementsCallbackBlock)block{
+- (BOOL)executeStatements:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block{
     return [self.fmdb executeStatements:sql withResultBlock:block];
 }
 

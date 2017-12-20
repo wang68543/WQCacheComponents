@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "WQSQLMoelProtocol.h"
-
+@class FMResultSet;
 @interface WQSQLDBTool : NSObject
 //TODO: ==========模型的解析与存储==========
 /** 解析本地数据库查询数据的模型(根据请求参数进行) */

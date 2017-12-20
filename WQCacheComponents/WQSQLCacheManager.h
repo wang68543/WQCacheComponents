@@ -12,14 +12,13 @@
 #import "WQBaseQueryParam.h"
 #import "WQSQLDBTool.h"
 #import "WQSQLMoelProtocol.h"
-#import <WQHttpTool.h>
+
 
 typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 @interface WQSQLCacheManager : NSObject
 /** 由子类实现 */
 +(instancetype)manager;
-@property (strong ,nonatomic,readonly) FMDatabase *fmdb;
-@property (strong ,atomic,readonly) FMDatabaseQueue *queue;
+
 
 /** 根据路径创建数据库 子类调用 */
 -(void)createDBQueueWithPath:(NSString *)path;
@@ -77,7 +76,7 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 /** 以字典形式返回SQL执行结果 */
 - (NSDictionary *)executeStatementsDic:(NSString *)sql;
 /** 直接执行SQL语句(以Block形式) */
-- (BOOL)executeStatements:(NSString *)sql withResultBlock:(FMDBExecuteStatementsCallbackBlock)block;
+- (BOOL)executeStatements:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block;
 
 
 //TODO: 数据库辅助工具
