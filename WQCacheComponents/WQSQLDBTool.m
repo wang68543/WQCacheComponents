@@ -8,7 +8,7 @@
 
 #import "WQSQLDBTool.h"
 #import <objc/runtime.h>
-
+#import <FMDB/FMDB.h>
 @implementation WQSQLDBTool
 //TODO: 解析本地数据库查询数据的模型(根据请求参数进行)
 + (NSArray *)parseModels:(Class<WQSQLMoelProtocol>)modelClass FMResultSet:(FMResultSet *)rs{

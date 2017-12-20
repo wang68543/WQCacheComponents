@@ -12,14 +12,12 @@
 #import "WQBaseQueryParam.h"
 #import "WQSQLDBTool.h"
 #import "WQSQLMoelProtocol.h"
-//#import <WQHttpTool.h>
 
 typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 @interface WQSQLCacheManager : NSObject
 /** 由子类实现 */
 +(instancetype)manager;
-@property (strong ,nonatomic,readonly) FMDatabase *fmdb;
-@property (strong ,atomic,readonly) FMDatabaseQueue *queue;
+
 
 /** 根据路径创建数据库 子类调用 */
 -(void)createDBQueueWithPath:(NSString *)path;
@@ -44,9 +42,12 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 ///** 去服务器请求数据 */
 //- (void)requestDatasWithQueryParam:(WQBaseQueryParam *)queryParam response:(WQCacheQueryResponse)res;
 
+/**将数据存到数据库 表名根据实例去获取 (必须实现t_tableName方法)*/
+- (void)saveModelsToDB:(NSArray<id<WQSQLMoelProtocol> > *)models;
 /** 将服务器请求的模型保存到数据库*/
 - (void)saveModelsToDB:(NSArray<id<WQSQLMoelProtocol> > *)models tableName:(NSString *)t_table;
-
+/** 从数据库查询数据 */
+- (NSArray<id<WQSQLMoelProtocol>> *)queryFromDBWithSQL:(NSString *)sql modelClass:(Class)model;
 //-(void)requestNewDatas:(WQBaseQueryParam *)modifyParam
 //                 param:(WQBaseQueryParam *)param;
 
@@ -74,7 +75,7 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 /** 以字典形式返回SQL执行结果 */
 - (NSDictionary *)executeStatementsDic:(NSString *)sql;
 /** 直接执行SQL语句(以Block形式) */
-- (BOOL)executeStatements:(NSString *)sql withResultBlock:(FMDBExecuteStatementsCallbackBlock)block;
+- (BOOL)executeStatements:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block;
 
 
 //TODO: 数据库辅助工具

@@ -9,7 +9,7 @@
 #import "WQBaseQueryParam.h"
 #import "WQSQLDBTool.h"
 #import <objc/runtime.h>
-
+#import <FMDB/FMDB.h>
 @implementation WQQueryCondition
 + (instancetype)conditionColumnName:(NSString *)columnName relationship:(WQRelationType)relation toValue:(NSString *)value{
     return [[self alloc] initColumnName:columnName relationship:relation toValue:value];

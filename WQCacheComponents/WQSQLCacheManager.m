@@ -7,10 +7,13 @@
 //
 
 #import "WQSQLCacheManager.h"
-//#import <WQBasicComponents/WQBasicComponents.h>
+ 
+#import <WQBasicComponents/NSObject+PropertyRuntime.h>
+#import <FMDB/FMDB.h> 
 
 @interface WQSQLCacheManager()
-
+@property (strong ,nonatomic,readonly) FMDatabase *fmdb;
+@property (strong ,atomic,readonly) FMDatabaseQueue *queue;
 @end
 @implementation WQSQLCacheManager
 
@@ -98,7 +101,10 @@
 //        !res?:res(error,nil);
 //    }];
 //}
-
+//TODO: 将数据存到数据库 表名根据实例去获取
+- (void)saveModelsToDB:(NSArray<id<WQSQLMoelProtocol> > *)models{
+    [self saveModelsToDB:models tableName:[[[models firstObject] class] t_tableName]];
+}
 //TODO: 将服务器请求的模型保存到数据库
 - (void)saveModelsToDB:(NSArray *)models tableName:(NSString *)t_table{
     NSArray *sqls = [WQSQLDBTool saveModelsSQL:models tableName:t_table];
@@ -112,8 +118,12 @@
 
 //TODO: 从数据库查询数据 转换为模型 private method
 - (NSArray *)executeQueryModelsWithParam:(WQBaseQueryParam *)param{
-    FMResultSet *rs = [self executeQueryWithSQL:[param queryParamFormatSQLString]];
-   return [WQSQLDBTool parseModels:[param modelClass] FMResultSet:rs];
+    return [self queryFromDBWithSQL:[param queryParamFormatSQLString] modelClass:[param modelClass]];
+}
+//TODO: 从数据库查询数据
+- (NSArray<id<WQSQLMoelProtocol>> *)queryFromDBWithSQL:(NSString *)sql modelClass:(Class)model{
+    FMResultSet *rs = [self executeQueryWithSQL:sql];
+    return [WQSQLDBTool parseModels:model FMResultSet:rs];
 }
 //TODO: 批量进行更新操作 采用事务的方式
 - (BOOL)executeUpdateWithSqls:(NSArray *)sqls{
@@ -163,7 +173,7 @@
     return execResult;
 }
 //TODO: 直接执行SQL语句
-- (BOOL)executeStatements:(NSString *)sql withResultBlock:(FMDBExecuteStatementsCallbackBlock)block{
+- (BOOL)executeStatements:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block{
     return [self.fmdb executeStatements:sql withResultBlock:block];
 }
 
