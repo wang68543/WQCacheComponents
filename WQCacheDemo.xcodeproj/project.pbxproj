@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1A9A5409E9ED80ACAECA8A58 /* libPods-WQCacheDemo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F30F9F1BAD9D50093E0DE8FA /* libPods-WQCacheDemo.a */; };
+		2D439AA21FEB499700D4EBDB /* WQSQLCondition.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D439AA11FEB499700D4EBDB /* WQSQLCondition.m */; };
 		DE08DD111ED96C5B008EAEE4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE08DD101ED96C5B008EAEE4 /* main.m */; };
 		DE08DD141ED96C5B008EAEE4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE08DD131ED96C5B008EAEE4 /* AppDelegate.m */; };
 		DE08DD171ED96C5B008EAEE4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE08DD161ED96C5B008EAEE4 /* ViewController.m */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2D439AA01FEB499700D4EBDB /* WQSQLCondition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WQSQLCondition.h; sourceTree = "<group>"; };
+		2D439AA11FEB499700D4EBDB /* WQSQLCondition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WQSQLCondition.m; sourceTree = "<group>"; };
 		56201FBBAC149C7D62308B98 /* Pods-WQCacheDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WQCacheDemo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-WQCacheDemo/Pods-WQCacheDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		DE08DD0C1ED96C5B008EAEE4 /* WQCacheDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WQCacheDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE08DD101ED96C5B008EAEE4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				DE4F88C01EE24FA400C33ABA /* WQSQLDBTool.m */,
 				DE6E167F1EE46B270082158B /* WQSQLMoelProtocol.h */,
 				DEAD65CE1F147EDC00AE3883 /* WQCacheComponents.h */,
+				2D439AA01FEB499700D4EBDB /* WQSQLCondition.h */,
+				2D439AA11FEB499700D4EBDB /* WQSQLCondition.m */,
 			);
 			path = WQCacheComponents;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 				DEBC2AD11EE6BCC700277BD2 /* HeathyDataItem.m in Sources */,
 				DEBC2ACE1EE6BC9000277BD2 /* HeathyQueryParam.m in Sources */,
 				DEBC2ACD1EE6BC9000277BD2 /* HeathyCacheManager.m in Sources */,
+				2D439AA21FEB499700D4EBDB /* WQSQLCondition.m in Sources */,
 				DE4F88C11EE24FA400C33ABA /* WQSQLDBTool.m in Sources */,
 				DE08DD111ED96C5B008EAEE4 /* main.m in Sources */,
 				DE08DD291ED96CD2008EAEE4 /* WQBaseQueryParam.m in Sources */,

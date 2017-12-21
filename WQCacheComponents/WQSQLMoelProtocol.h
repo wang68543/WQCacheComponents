@@ -18,6 +18,9 @@
  */
 + (NSString *)primaryKey;
 
+/** 类自定义表名 (当一个模型可能创建多个表名的时候 就使用查询模型的实例化方法来区分) */
++ (NSString *)t_tableName;
+
 @optional
 
 /**
@@ -35,20 +38,19 @@
 + (NSDictionary *)newNameToOldNameDic;
 
 
-/** 类自定义表名 (当一个模型可能创建多个表名的时候 就使用查询模型的实例化方法来区分) */
-+ (NSString *)t_tableName;
-/** 用于解决遵守协议之后 无法创建协议类 */
-+ (instancetype)alloc;
-//TODO:模型解析
-//@required
-/**
- 解析服务器下载数据的模型(根据请求参数进行)
 
- @param json 数据库返回的json数据
- @param outError 解析错误的结果
- @return 返回解析模型
- */
-+ (NSArray *)parseModelsWithJSON:(id)json error:(NSError **)outError;
+//* 用于解决遵守协议之后 无法创建协议类
++ (instancetype)alloc;
+////TODO:模型解析
+////@required
+///**
+// 解析服务器下载数据的模型(根据请求参数进行)
+//
+// @param json 数据库返回的json数据
+// @param outError 解析错误的结果
+// @return 返回解析模型
+// */
+//+ (NSArray *)parseModelsWithJSON:(id)json error:(NSError **)outError;
 
 
 @end
