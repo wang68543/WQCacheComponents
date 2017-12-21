@@ -7,7 +7,6 @@
 // 这里 不管SQL语句 所有SQL语句都要DBTool生成
  
 #import <Foundation/Foundation.h>
-
 typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 @class FMResultSet;
 

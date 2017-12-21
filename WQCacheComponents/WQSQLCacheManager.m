@@ -7,8 +7,8 @@
 //
 
 #import "WQSQLCacheManager.h"
-#import <WQBasicComponents/NSObject+PropertyRuntime.h>
-#import <FMDB/FMDB.h>
+ 
+#import <FMDB/FMDB.h> 
 
 @interface WQSQLCacheManager()
 @property (strong ,nonatomic,readonly) FMDatabase *fmdb;
@@ -38,6 +38,7 @@
 }
 
 #pragma mark -- 模型执行方法
+
 -(FMResultSet *)QueryFromDB:(NSString *)sql{
     return [self.fmdb executeQuery:sql];
 }

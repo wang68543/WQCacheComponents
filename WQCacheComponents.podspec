@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   # ―――  Spec Metadata  ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
 
   s.name         = "WQCacheComponents"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.summary      = "数据库缓存工具"
 
   s.description  = <<-DESC 

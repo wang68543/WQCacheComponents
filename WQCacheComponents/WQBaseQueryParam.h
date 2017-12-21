@@ -23,7 +23,6 @@ typedef NS_ENUM(NSInteger , WQDBAction) {
     WQDBActionQuery,
     WQDBActionDelete,
 };
- 
 
 @interface WQBaseQueryParam : NSObject
 /** 返回模型的类型 */

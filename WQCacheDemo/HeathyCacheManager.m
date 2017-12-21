@@ -30,11 +30,11 @@ static HeathyCacheManager *_instance;
     self = [super init];
     if (self) {
         [self createDBQueueWithPath:[[[self queryParamClass] db_cacheDirectory] stringByAppendingPathComponent:[[self queryParamClass] db_name]]];
-      NSArray *sql =@[[WQSQLDBTool createTableSQL:[self modelClass]]];
-      BOOL success = [self executeUpdateWithSqls:sql rollback:YES];
-        if(!success){
-            NSLog(@"创表失败");
-        }
+//      NSArray *sql =@[[WQSQLDBTool createTableSQL:[self modelClass]]];
+//      BOOL success = [self executeUpdateWithSqls:sql rollback:YES];
+//        if(!success){
+//            NSLog(@"创表失败");
+//        }
     }
     return self;
 }
