@@ -8,7 +8,6 @@
 
 #import "WQBaseQueryParam.h"
 #import "WQSQLDBTool.h"
-#import <objc/runtime.h>
  
 @implementation WQBaseQueryParam
 +(NSString *)db_cacheDirectory{

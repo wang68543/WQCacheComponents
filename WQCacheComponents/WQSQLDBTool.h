@@ -22,15 +22,26 @@ typedef Class WQDBModelClass;
 
 //TODO: ==========模型的解析与存储==========
 + (NSArray *)parseModels:(WQDBModelClass)modelCls FMResultSet:(FMResultSet *)rs;
+
+/** 多个数据生成一条SQL语句 (待验证字符串长度过长) */
++ (NSString *)saveModelsSql:(NSArray *)models;
 /**
  批量生成保存SQL语句
  */
 + (NSArray<NSString *> *)saveModelSqls:(NSArray *)models;
-/** 多个数据生成一条SQL语句 (待验证字符串长度过长) */
-+ (NSString *)saveModelsSql:(NSArray *)models;
+/**
+ 如果模型中包含NSData类型用这个方法
+
+ @param models 需要存数据库的数据
+ @param values 存储的NSData类型的值
+ @return SQL语句
+ */
++ (NSArray<NSString *> *)saveModelSqls:(NSArray *)models arrayDataValues:(NSArray<NSArray *> **)values;
+ 
 /** 更新单条模型 (根据主键进行更新) */
 + (NSString *)updateModel:(id)model updateKeys:(NSArray *)keys;
-
+/** 更新模型 模型中包含NSData类型的属性 */
++ (NSString *)updateModel:(id)model updateKeys:(NSArray *)keys dataValues:(NSArray **)values;
 /** 查询数据表所有的字段 (如果没有字段 说明表不存在 ) */
 + (NSString *)QueryTableInfoSQL:(WQDBModelClass)modelCls;
 

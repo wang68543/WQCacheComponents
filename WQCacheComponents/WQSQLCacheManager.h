@@ -18,6 +18,25 @@ typedef void (^WQCacheQueryResponse)( NSError *error, NSArray *results);
 -(FMResultSet *)QueryFromDB:(NSString *)sql;
 -(void)UpdateToDB:(NSString *)sql isInTransaction:(BOOL)inTransaction;
 -(void)UpdateToDB:(NSArray *)sqls rollback:(BOOL)doRollback;
+
+
+/**
+ 数据更新包含一些字符串无法表达的类型
+
+ @param sql 数据存储SQL语句
+ @param values 参数列表
+ */
+- (void)Update:(NSString *)sql dataValues:(NSArray *)values;
+/**
+ 主要用于包含NSData类型的数据 无法直接用SQL语句存储
+ 需要FMDB executeUpdate:withArgumentsInArray:
+
+ @param sqls SQL语句 NSData用`?`占位 
+ @param values NSData存值
+ */
+-(void)UpdateToDB:(NSArray *)sqls dataValues:(NSArray<NSArray *> *)values;
+
+
 /** 直接执行SQL语句(以Block形式) */
 - (BOOL)executeStatementsFromDB:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block;
 - (NSDictionary *)executeStatementsFromDB:(NSString *)sql;

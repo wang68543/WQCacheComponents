@@ -50,8 +50,8 @@
     }else{
      [self.fmdb executeUpdate:sql];
     }
-    
 }
+
 -(void)UpdateToDB:(NSArray *)sqls rollback:(BOOL)doRollback{
     if (self.fmdb.isInTransaction) {
         [self.fmdb beginTransaction];
@@ -69,6 +69,26 @@
         [self.fmdb commit];
     }
 }
+- (void)Update:(NSString *)sql dataValues:(NSArray *)values{
+    [self.fmdb executeQuery:sql withArgumentsInArray:values];
+}
+-(void)UpdateToDB:(NSArray *)sqls dataValues:(NSArray<NSArray *> *)values{
+    NSAssert(sqls.count == values.count, @"参数的个数需要与SQL语句的个数一致");
+    
+    if (self.fmdb.isInTransaction) {
+        [sqls enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self Update:obj dataValues:values[idx]];
+        }];
+    }else{
+        [self.fmdb beginTransaction];
+        [sqls enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [self Update:obj dataValues:values[idx]];
+        }];
+        [self.fmdb commit];
+    }
+}
+
+
 /** 直接执行SQL语句(以Block形式) */
 - (BOOL)executeStatementsFromDB:(NSString *)sql withResultBlock:(int (^)(NSDictionary *result))block{
     return [self.fmdb executeStatements:sql withResultBlock:block];

@@ -70,13 +70,15 @@ typedef NS_ENUM(NSInteger,WQConditionConactType) {
 + (instancetype)conditionColumnName:(NSString *)columnName relationship:(WQRelationType)relation toValue:(id)value;
 /** 连接前一个的关系 */
 @property (assign  ,nonatomic) WQConditionConactType connectBeforeType;
-
+/** value 类型 */
 @property (assign  ,nonatomic) WQConditionValueType valueType;
 
 /** 判断条件是否为空 */
 - (BOOL)isEmpty;
 /** 返回SQL语句 */
 - (NSString *)SQLFormat;
+
+
 
 /** 拼接条件限制SQL语句 默认 and连接 */
 + (NSString *)SQLWithConditions:(NSArray<WQSQLCondition *>*)conditions;

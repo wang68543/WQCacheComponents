@@ -32,12 +32,16 @@
  
     return createTableSql;
 }
+//MARK: =========== 模型解析 ===========
 +(NSArray *)parseModels:(WQDBModelClass)modelCls FMResultSet:(FMResultSet *)rs{
     NSDictionary *dbTypes = objcTypeMapToDBTypes();
     NSDictionary *properties = [self classDBPropertiesTypes:modelCls];
     NSMutableArray *models = [NSMutableArray array];
     while (rs.next) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Warc-unsafe-retained-assign"
         WQDBModelClass model = [[modelCls alloc] init];
+#pragma clang diagnostic pop
         [properties enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString * _Nonnull obj, BOOL * _Nonnull stop) {
             id value ;
             NSString *type = dbTypes[obj];
@@ -67,6 +71,29 @@
     }
     return models;
 }
+
+//MARK: =========== 模型保存 ===========
++(NSArray<NSString *> *)saveModelSqls:(NSArray *)models arrayDataValues:(NSArray<NSArray *> *__autoreleasing *)values{
+    if (![models isKindOfClass:[NSArray class]] ||models.count <= 0) return [NSArray array];
+    WQDBModelClass modelCls = [[models firstObject] class];
+    NSDictionary *properties = [self classDBPropertiesTypes:modelCls];
+    NSAssert(properties.count > 0, @"对象必须要有属性");
+    
+    NSString *tableName = [modelCls t_tableName];
+    NSArray *propertyNames = properties.allKeys;
+    NSString *preSql = [self insertIntoTable:tableName prefix:propertyNames];
+    
+    NSMutableArray *sqls = [NSMutableArray array];
+    NSMutableArray *dataValues = [NSMutableArray array];
+    [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray *value = nil;
+        NSString *sql = [self insertDBSuffix:obj properties:propertyNames dataValues:&value];
+        [sqls addObject:[NSString stringWithFormat:@"%@%@",preSql,sql]];
+        [dataValues addObject:value];
+    }];
+    *values = [dataValues copy];
+    return sqls;
+}
 + (NSString *)saveModelsSql:(NSArray *)models{
     if (![models isKindOfClass:[NSArray class]] ||models.count <= 0) return @"";
     WQDBModelClass modelCls = [[models firstObject] class];
@@ -75,101 +102,34 @@
     
 //insert into table () values (),(),(),() 不使用事务也很快
     NSString *tableName = [modelCls t_tableName];
-    
+   
     NSArray *propertyNames = properties.allKeys;
-    NSMutableString *sqls = [NSMutableString stringWithFormat:@"insert into %@ ",tableName];
-    
-     NSInteger indexMax = propertyNames.count - 1 ;
-    
-    [sqls appendString:@"( "];
-    [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx == indexMax) {
-            [sqls appendFormat:@"%@ ",obj];
-        }else{
-            [sqls appendFormat:@"%@, ",obj];
+    NSMutableString *sqls = [NSMutableString stringWithString:[self insertIntoTable:tableName prefix:propertyNames]];
+    NSMutableArray *values = [NSMutableArray array];
+    NSInteger indexMax = models.count - 1;
+    [models enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSArray *value = nil;
+        [sqls appendString:[self insertDBSuffix:obj properties:propertyNames dataValues:&value]];
+        if (indexMax != idx) {
+            [sqls appendString:@","];
         }
+        [values addObjectsFromArray:value];
     }];
-    [sqls appendString:@") "];
-    
-    [sqls appendString:@"values "];
-    
-    for (id model in models) {
-        [sqls appendString:@"( "];
-        [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-          //需要判断
-            id value = [model valueForKey:obj];
-            if ([value isKindOfClass:[NSString class]]) {
-                [sqls appendFormat:@"'%@'",value];
-            }else if([value isKindOfClass:[NSDate class]]){
-                NSDate *date = (NSDate *)value;
-                [sqls appendFormat:@"%lf",date.timeIntervalSince1970];
-            }else{
-                [sqls appendFormat:@"%@",value];
-            }
-            if (idx != indexMax) {//最后一个
-                [sqls appendString:@", "];
-            }
-        }];
-        [sqls appendString:@"),"];
-    }
-    [sqls deleteCharactersInRange:NSMakeRange(sqls.length - 1, 1)];
-    return sqls;
+    return [sqls copy];
 }
 +(NSArray<NSString *> *)saveModelSqls:(NSArray *)models{
-    if (![models isKindOfClass:[NSArray class]] ||models.count <= 0) return [NSArray array];
-    WQDBModelClass modelCls = [[models firstObject] class];
-    NSDictionary *properties = [self classDBPropertiesTypes:modelCls];
-    NSAssert(properties.count > 0, @"对象必须要有属性");
- 
-    NSString *tableName = [modelCls t_tableName];
-    
-    NSArray *propertyNames = properties.allKeys;
-    NSMutableString *preSql = [NSMutableString stringWithFormat:@"insert into %@ ",tableName];
-
-    NSInteger indexMax = propertyNames.count - 1 ;
-    
-    [preSql appendString:@"( "];
-    [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (idx == indexMax) {
-            [preSql appendFormat:@"%@ ",obj];
-        }else{
-            [preSql appendFormat:@"%@, ",obj];
-        }
-    }];
-    [preSql appendString:@") "];
-    
-    [preSql appendString:@"values "];
-    
-    NSMutableArray *sqls = [NSMutableArray array];
-    
-    
-    for (id model in models) {
-        NSMutableString *sql = [NSMutableString stringWithFormat:@"%@ ( ",preSql];
-        [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            //需要判断
-            id value = [model valueForKey:obj];
-            if ([value isKindOfClass:[NSString class]]) {
-                [sql appendFormat:@"'%@'",value];
-            }else if([value isKindOfClass:[NSDate class]]){
-                NSDate *date = (NSDate *)value;
-                [sql appendFormat:@"%lf",date.timeIntervalSince1970];
-            }else{
-                [sql appendFormat:@"%@",value];
-            }
-            if (idx != indexMax) {//最后一个
-                [sql appendString:@", "];
-            }
-        }];
-        [sql appendString:@");"];
-        [sqls addObject:sql];
-    }
-    return sqls;
+    return [self saveModelSqls:models arrayDataValues:nil];
 }
-
+//MARK: =========== 模型更新 ===========
 +(NSString *)updateModel:(id)model updateKeys:(NSArray *)keys{
+    return [self updateModel:model updateKeys:keys dataValues:nil];
+}
++(NSString *)updateModel:(id)model updateKeys:(NSArray *)keys dataValues:(NSArray *__autoreleasing *)values{
     WQDBModelClass modelCls = [model class];
     NSAssert([modelCls respondsToSelector:@selector(primaryKey)], @"模型必须实现主键方法");
- 
+    
+    NSMutableArray *dataValues = [NSMutableArray array];
+    
     NSString *primaryKey = [modelCls primaryKey];
     NSMutableString *updateSql = [NSMutableString stringWithFormat:@"UPDATE %@ SET ",[modelCls t_tableName]];
     NSInteger indexMax = keys.count - 1;
@@ -177,8 +137,11 @@
         id value = [model valueForKey:obj];
         if ([value isKindOfClass:[NSString class]]) {
             [updateSql appendFormat:@"%@ = '%@' ",obj,value];
+        }else if ([value isKindOfClass:[NSData class]]) {
+            [updateSql appendFormat:@"%@ = ? ",obj];
+            [dataValues addObject:value];
         }else{
-              [updateSql appendFormat:@"%@ = %@ ",obj,value];
+            [updateSql appendFormat:@"%@ = %@ ",obj,value];
         }
         if (idx != indexMax) {
             [updateSql appendString:@", "];
@@ -191,15 +154,61 @@
         [updateSql appendFormat:@"WHERE %@ = %@ ",primaryKey,primaryValue];
     }
     [updateSql appendString:@";"];
+    *values = [dataValues copy];
     return updateSql;
-    
 }
 //MARK: - -- 获取对象的数据库字段类型
 +(NSDictionary<NSString *, NSString *> *)classMapToDB:(WQDBModelClass)modelCls{
     return [self classPropertiesMapToDB:[self classDBPropertiesTypes:modelCls]];
 }
 
-#pragma mark - 私有的方法
+#pragma mark ------- 私有的方法
+//MARK: - -- insert into SQL语句的前半部分: insert into table (name1,name2,...) VALUES
++(NSString *)insertIntoTable:(NSString *)tableName prefix:(NSArray *)propertyNames{
+    NSMutableString *sqls = [NSMutableString stringWithFormat:@"insert into %@ ",tableName];
+    NSInteger indexMax = propertyNames.count - 1 ;
+    [sqls appendString:@"( "];
+    [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx == indexMax) {
+            [sqls appendFormat:@"%@ ",obj];
+        }else{
+            [sqls appendFormat:@"%@, ",obj];
+        }
+    }];
+    [sqls appendString:@") "];
+    
+    [sqls appendString:@"VALUES "];
+    return [sqls copy];
+}
+//MARK: - -- insert into SQL语句的后半部分 (?,?,?)
++(NSString *)insertDBSuffix:(id)model properties:(NSArray *)propertyNames dataValues:(NSArray **)datas{
+    NSMutableString *sqls = [NSMutableString string];
+    [sqls appendString:@"( "];
+    NSMutableArray *dataValues = [NSMutableArray array];
+    NSInteger indexMax = propertyNames.count - 1 ;
+    [propertyNames enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        //需要判断
+        id value = [model valueForKey:obj];
+        if ([value isKindOfClass:[NSString class]]) {
+            [sqls appendFormat:@"'%@'",value];
+        }else if([value isKindOfClass:[NSDate class]]){
+            NSDate *date = (NSDate *)value;
+            [sqls appendFormat:@"%lf",date.timeIntervalSince1970];
+        }else if([value isKindOfClass:[NSData class]]){
+                [dataValues addObject:value];
+        }else{
+            [sqls appendFormat:@"%@",value];
+        }
+        if (idx != indexMax) {//最后一个
+            [sqls appendString:@", "];
+        }
+    }];
+    *datas = [dataValues copy];
+    
+    [sqls appendString:@") "];
+    return [sqls copy];
+    
+}
 
 //MARK: - -- 根据属性字典映射出对应数据库类型字段
 /**
@@ -303,8 +312,8 @@ NSDictionary<NSString *, NSString *> * objcTypeMapToDBTypes(){
  
 }
 
-//MARK: =========== SQL功能语句 ===========
-//TODO: 数据库表信息查询处理=====================
+//MARK: ---------- SQL功能语句
+//MARK: =========== 数据库表信息查询处理 ===========
 /**
 // 获取查询结果里面的数据库字段
 NSString *createTableSql = dic[@"sql"];
@@ -353,8 +362,6 @@ for (NSString *nameType in nameTypeArray) {
     [names addObject:name];
     
 }*/
-//TODO: 数据库表信息查询处理END=====================
-
 +(NSString *)QueryTableInfoSQL:(WQDBModelClass)modelCls{
     /** 查询数据库表的所有字段的名称 */
     //sqlite_master 每个数据库都默认都有的 (查询数据库中的表)
@@ -363,7 +370,7 @@ for (NSString *nameType in nameTypeArray) {
     //字典里面的sql字段 即为查询到字段名跟类型 如果字典为空就说明没有该表
     return [NSString stringWithFormat:@"select sql from sqlite_master where type = 'table' and name = '%@'", [modelCls t_tableName]];
 }
-
+//MARK: =========== 数据库表信息查询处理END ===========
 + (NSArray *)MoveTableSQL:(WQDBModelClass)modelCls dbProperties:(NSDictionary *)dbNames{
     // 1. 创建一个拥有正确结构的临时表
     // 1.1 获取表格名称
