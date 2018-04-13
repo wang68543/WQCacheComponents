@@ -1,1 +1,0 @@
-../../../../../WQBaseDemo/WQBasicComponents/WQPublicHelp/WQBasicHelp/WQConstans.h

@@ -1,1 +1,0 @@
-../../../../../WQBaseDemo/WQBasicComponents/Tool/BasicHelp/WQAppInfo.h

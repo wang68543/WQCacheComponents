@@ -17,7 +17,9 @@
 + (NSString *)primaryKey{
     return @"";
 }
-
++(NSString *)t_tableName{
+    return @"t_table";
+}
 /**
  忽略的字段数组
  
@@ -40,6 +42,7 @@
 
 /** 类自定义表名 */
 + (NSString *)tableName{
+   
     return @"t_heathyDataItem";
 }
 
